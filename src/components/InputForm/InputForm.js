@@ -1,23 +1,17 @@
 import { React } from "react"
 import { useState } from "react";
 import css from './InputForm.module.css';
-//import PropTypes from 'prop-types';
 import { useDispatch } from "react-redux";
 import { addContact } from "redux/actions";
 
 export const InputForm = () => {
     const dispatch = useDispatch();
-    // state = {       
-    //     name: '',
-    //     number: ''
-    // }
+   
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
     
     const onInputHandler = (event) => {
-        // this.setState({ [event.target.name]: event.target.value })
         const {name, value } = event.target;
-       
         switch (name){
             case "name":
                 setName(value);
@@ -27,43 +21,15 @@ export const InputForm = () => {
                 break
             default: return;
         }
-    
         }
     
-        //   const  submitForm = e => {
-        //         e.preventDefault();
-        //         const newContact = {
-        //             name: this.state.name,
-        //             id: nanoid(),
-        //             number: this.state.number,
-        //         };
-        
-        //         this.props.onSubmit(newContact);
-        
-       
-        //         restart();
-        //     } 
+
         const submitForm = (e) => {
             e.preventDefault();
             dispatch(addContact(name, number));
-            
             resetInput();
-            //const form = e.target;
-            
-            
-            //dispatch(addContact(form.elements.name.value));
-            //dispatch(addContact(form.elements.number.value));
-             console.log(name)
-            console.log(number)
-            
         }
 
-        //    const restart = () => {
-        //         setTimeout(() => {
-        //             this.setState({ name: "", number: "" })
-        //         }, 500);
-        //     }
-    
     const resetInput = () => {
         setName('');
         setNumber('');
@@ -105,7 +71,5 @@ export const InputForm = () => {
  
 
 
-// InputForm.propTypes = {
-//   onSubmit: PropTypes.func.isRequired,
-// };
+
     
