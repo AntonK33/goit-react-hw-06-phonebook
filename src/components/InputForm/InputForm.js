@@ -1,18 +1,20 @@
 import { React } from "react"
 import { useState } from "react";
-import css from './InputForm.module.css';
+import css from './InputForm.module.css'; 
 import { useDispatch } from "react-redux";
-import { addContact } from "redux/actions";
+import { addContact } from "redux/contactsSlice";
+import { useSelector } from "react-redux";
+import { getContacts } from "redux/selectors";
 
 export const InputForm = () => {
     const dispatch = useDispatch();
-   
+    const contacts = useSelector(getContacts);
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
     
     const onInputHandler = (event) => {
-        const {name, value } = event.target;
-        switch (name){
+        const { name, value } = event.target;
+        switch (name) {
             case "name":
                 setName(value);
                 break;
@@ -21,12 +23,32 @@ export const InputForm = () => {
                 break
             default: return;
         }
-        }
+    };
+    const formValidationName = name => {
+        return contacts.find(
+            contact => contact.name.toLowerCase() === name.toLowerCase(),
+        );
+    };
+     const formValidationNumber = number => {
+    return contacts.find(contact => contact.number === number);
+    };
+    const formValidationQuery = (name, number) => {
+    return name.trim() === '' || number.trim() === '';
+    };
     
-
         const submitForm = (e) => {
             e.preventDefault();
+            
+            if (formValidationName(name)) {
+                alert(`${name} is already in contacts.`);   
+            }else if(formValidationNumber(number)) {
+                alert(`${name} is already in contacts.`);   
+            }else if(formValidationQuery(name, number)) {
+                alert("Enter the contact's name and number phone!");   
+            } else {
             dispatch(addContact(name, number));
+                
+            }
             resetInput();
         }
 
